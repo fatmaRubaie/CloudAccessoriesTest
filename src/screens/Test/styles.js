@@ -9,7 +9,7 @@ export default StyleSheet.create({
         marginTop: 10,
     },
     scrollView: {
-        marginHorizontal: 5,
+       // marginHorizontal: 5,
     },
     text: {
         fontSize: 42,

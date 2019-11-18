@@ -18,7 +18,7 @@ export default StyleSheet.create({
         marginVertical: 5,
         marginHorizontal: 10,
         padding: 5,
-        height:160,
+
     },
     text: {
         marginHorizontal: 10,

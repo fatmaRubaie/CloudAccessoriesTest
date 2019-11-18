@@ -31,6 +31,6 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 10,
-        width:180
+        width:150
     }
 });

@@ -1,5 +1,9 @@
 {
   "test": "Test",
   "load_more": "Load More",
-  "select_language": "Choose Language Please :)"
+  "select_language": "Choose Language Please :)",
+  "style": "Choose your style",
+  "row": "row",
+  "column": "column",
+  "grid": "grid"
 }

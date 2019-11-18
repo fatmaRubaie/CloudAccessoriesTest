@@ -7,6 +7,7 @@ import {Item} from '../../components/Item/Item';
 import Button from '../../components/Button/Button';
 import {isRTL, strings} from '../../locales/i18n';
 import I18n from '../../locales/i18n';
+import RoundedTabs from '../../components/RoundedTabs/RoundedTabs';
 
 let mock = [
     {
@@ -30,17 +31,43 @@ let mock = [
         image: 'https://images.unsplash.com/photo-1499018658500-b21c72d7172b?ixlib=rb-1.2.1&w=1000&q=80',
     },
 ];
+const mockTabs = [
+    {
+        key: 0,
+        label: strings('row'),
+    },
+    {
+        key: 1,
+        label: strings('column'),
+    },
+    {
+        key: 2,
+        label: strings('grid'),
+    },
 
+];
 export default class Test extends Component {
     constructor() {
         super();
         this.state = {
             list: [],
+            type: 'row',
+            selectedTab: 0,
+
         };
     }
 
+    delete_item = (index) => {
+        mock.splice(index, 1);
+        this.setState({list: mock});
+        console.log(this.state.list);
+    };
+
     renderItem = (item, index) => {
-        return (<Item item={item}/>);
+        return (<Item item={item['item']}
+                      type={this.state.type}
+                      delete={() => this.delete_item(index)}
+        />);
     };
 
     load = () => {
@@ -61,24 +88,51 @@ export default class Test extends Component {
     }
 
     render() {
+        let items = [];
+        for (let i = 0; i < mock.length; i++) {
+            console.log(mock[i])
+            items.push(
+                <Item item={mock[i]}
+                      delete={() => this.delete_item(index)}
+                />
+            );
+        }
         return (
             <Container>
                 <Content>
                     <Text style={styles.address}>Your Cloud Accessories {strings('test')}</Text>
-                    <SafeAreaView style={styles.container}>
-                        <ScrollView style={styles.scrollView}
-                                    showsHorizontalScrollIndicator={false}
-                                    showsVerticalScrollIndicator={false}
-                                    contentContainerStyle={{flex: 1}}>
-                            {
-                                this.state.list.map((item, index) => this.renderItem({item, index}))
-                            }
-                            <View style={styles.btn}>
-                                <Button title={strings('load_more')}
-                                        onPress={() => this.load()}/>
+                    <Text style={styles.address}>Your Cloud Accessories {strings('style')}</Text>
+                    <RoundedTabs
+                        tab={true}
+                        list={mockTabs}
+                        onChange={(i) => {
+                            this.setState({selectedTab: i.key});
+                        }}
+                        selected={this.state.selectedTab}
+                    />
+                    <View style={[styles.view, {height: this.state.type === 'column' ? 200 : '80%'}]}>
+                        {this.state.selectedTab === 2 ?
+
+                            <View style={[styles.all]}>
+                                {  items}
                             </View>
-                        </ScrollView>
-                    </SafeAreaView>
+                             :
+                            <ScrollView style={[styles.scrollView]}
+                                        horizontal={this.state.selectedTab === 1 ? true : false}
+                            >
+
+                                {
+                                    this.state.list.map((item, index) => this.renderItem({item, index}))
+
+                                }
+                            </ScrollView>
+
+                        }
+                    </View>
+                    <View style={styles.btn}>
+                        <Button title={strings('load_more')}
+                                onPress={() => this.load()}/>
+                    </View>
 
                 </Content>
             </Container>
